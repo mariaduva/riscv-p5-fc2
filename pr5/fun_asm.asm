@@ -28,45 +28,40 @@ fin:
     j fin
 
 checkCoordenadas:
-    li t0, 0 // Inicializar contador de coordenadas
-    li t3, 3 // Establecer el número esperado de coordenadas
+    li t0, 0
+    li t3, 3
 
 for:
-    slli t1, t0, 3 // Calcular el offset para acceder a la coordenada actual
-    add t2, a0, t1 // Calcular la dirección de memoria de la coordenada actual
+    slli t1, t0, 3
+    add t2, a0, t1
 
-    lw a1, 0(t2) // Cargar la coordenada x
-    lw a2, 4(t2) // Cargar la coordenada y
+    lw a1, 0(t2)
+    lw a2, 4(t2)
 
-    // Verificar si la coordenada actual es (0,0)
-    beqz a1, check_zero // Verificar si la coordenada x es cero
-    beqz a2, not_found_zero // Si la coordenada y no es cero, continuar verificando
+    beqz a1, check_zero
+    beqz a2, not_found_zero
 
-    addi t0, t0, 1 // Incrementar el contador de coordenadas
-    j for // Continuar verificando las siguientes coordenadas
+    addi t0, t0, 1
+    j for
 
 check_zero:
-    // Si la coordenada x es cero, verificar si la coordenada y también es cero
-    beqz a2, found_zero // Si la coordenada y es cero, encontramos (0,0)
+    beqz a2, found_zero
 
-    addi t0, t0, 1 // Incrementar el contador de coordenadas
-    j for // Continuar verificando las siguientes coordenadas
+    addi t0, t0, 1
+    j for
 
 found_zero:
-    // Si encontramos (0,0) al final del array, establecer el resultado y devolver
-    beq t0, t3, end_valid // Si el número de coordenadas es exactamente tres, es válido
-    li a0, 0 // Establecer el resultado en 0 (false)
-    ret // Devolver
+    beq t0, t3, end_valid
+    li a0, 0
+    ret
 
 not_found_zero:
-    // Si no encontramos (0,0) al final del array, continuar verificando
-    addi t0, t0, 1 // Incrementar el contador de coordenadas
-    j for // Continuar verificando las siguientes coordenadas
+    addi t0, t0, 1
+    j for
 
 end_valid:
-    li a0, 1 // Establecer el resultado en 1 (true)
-    ret // Devolver
-
+    li a0, 1
+    ret
 
 
 
